@@ -3,6 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path 
 
 def parse_quote(text: str) -> list[tuple[str, bool]]:
+    """text => [(word, is_bold)]"""
     segments = []
     pattern = re.compile(r"(<b>.*?</b>)")
     parts = pattern.split(text)
@@ -13,33 +14,36 @@ def parse_quote(text: str) -> list[tuple[str, bool]]:
             segments.append((part, False))
     return segments
 
-def measure_text_height(
+def measure_text_height_px(
     quote: str,
     draw: ImageDraw.ImageDraw,
     max_width_px: int,
     font: ImageFont.FreeTypeFont,
 ) -> int:
+    """Measure the height [px] of the quote once drawn."""
+    
     segments = parse_quote(quote)
     words = [(word, is_bold) for segment, is_bold in segments for word in segment.split()]
 
+    # For each word, figure out whether it belongs to this line, or the next one -- in order to stay below hte max_width_px
     lines = []
     curr_line = []
-
     while words:
         word, is_bold = words.pop(0)
         test_line = curr_line + [(word, is_bold)]
-        test_width = 0
+        test_width_px = 0
         for w, bold in test_line:
             bbox = draw.textbbox((0, 0), w, font=font)
-            test_width += bbox[2] - bbox[0]
-        test_width += (len(test_line) - 1) * draw.textlength(" ", font=font)
+            test_width_px += bbox[2] - bbox[0]
+        test_width_px += (len(test_line) - 1) * draw.textlength(" ", font=font)
 
-        if test_width <= max_width_px:
+        if test_width_px <= max_width_px:
             curr_line = test_line
         else:
             lines.append(curr_line)
             curr_line = [(word, is_bold)]
 
+    # Handle trailing line
     if curr_line:
         lines.append(curr_line)
 
@@ -54,6 +58,7 @@ def find_max_font_size(
     max_height_ratio: float,
     font_filepath: Path,
 ) -> int:
+    """Figure out what is the maximal fontsize the quote can have, while staying within its bounds."""
     max_width_px = int(image_size[0] * max_width_ratio)
     max_height_px = int(image_size[1] * max_height_ratio)
 
@@ -68,7 +73,7 @@ def find_max_font_size(
         mid = (low + high) // 2
         font = ImageFont.truetype(str(font_filepath), mid)
 
-        text_height = measure_text_height(quote, draw, max_width_px, font)
+        text_height = measure_text_height_px(quote, draw, max_width_px, font)
 
         if text_height <= max_height_px:
             best_size = mid

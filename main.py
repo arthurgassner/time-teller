@@ -17,6 +17,8 @@ LAST_FULL_REFRESH_DT_FILEPATH = Path('.last_full_refresh_dt')
 FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
 FONT_FILEPATH = Path("fonts/CormorantGaramond-VariableFont_wght.ttf")
 ITALIC_FONT_FILEPATH = Path("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
+MAX_WIDTH_RATIO = 0.8
+MAX_HEIGHT_RATIO = 0.65
 
 try:
     # Load and setup fonts
@@ -50,8 +52,8 @@ try:
         quote,
         draw,
         display_wh_px=(epd.width, epd.height),
-        max_width_ratio=0.8,
-        max_height_ratio=0.7,
+        max_width_ratio=MAX_WIDTH_RATIO,
+        max_height_ratio=MAX_HEIGHT_RATIO,
         font_filepath=ITALIC_FONT_FILEPATH,
     )
     draw_title_author(
