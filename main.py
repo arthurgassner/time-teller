@@ -35,7 +35,6 @@ try:
         logging.info("Clearing the screen...")
         epd.Clear()
         LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
-        print('aaa')
         
     epd.init_part() 
     
