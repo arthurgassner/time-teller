@@ -25,7 +25,7 @@ def randomly_select_quote_title_author() -> tuple[str, str, str]:
     logging.debug(f"Selected time: {now_str}")
     
     # Load the file containing the relevant quotes
-    with open(f"../data/quotes/{now_str}.csv", newline='') as f:
+    with open(f"data/quotes/{now_str}.csv", newline='') as f:
         reader = csv.reader(f)
         csv_rows = list(reader)
 
