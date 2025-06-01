@@ -107,9 +107,9 @@ def draw_title_author(
 try:
     # Load and setup fonts
     quote_font = ImageFont.truetype(
-        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 40
+        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 50
     )
-    quote_font.set_variation_by_axes([500])
+    quote_font.set_variation_by_axes([200])
 
     title_font = ImageFont.truetype(
         "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 24
@@ -121,8 +121,8 @@ try:
 
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
-    epd.init()
-    epd.Clear()
+    epd.init() # Needed after waking from sleep-mode
+    epd.Clear() # Clear the screen's content
 
     # Figure out which text to draw
     quote, title, author = randomly_select_quote_title_author()
@@ -152,9 +152,8 @@ try:
     epd.display(epd.getbuffer(image))
     time.sleep(2)
 
-    logging.info(".init then .clear")
-    epd.init()
-
+    # Enter sleep mode, as we don't want to screen to be on high-voltage continuously, 
+    # for fear of breaking it as per https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT_Manual
     logging.info(".sleep")
     epd.sleep()
 
