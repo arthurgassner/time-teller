@@ -15,22 +15,12 @@ logging.basicConfig(level=logging.DEBUG)
 
 LAST_FULL_REFRESH_DT_FILEPATH = Path('.last_full_refresh_dt')
 FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
-
+QUOTE_FONT_FILEPATH = Path("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
 
 
 
 try:
     # Load and setup fonts
-    quote_font = ImageFont.truetype(
-        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 50
-    )
-    quote_font.set_variation_by_axes([200])
-    
-    quote_bold_font = ImageFont.truetype(
-        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 50
-    )
-    quote_bold_font.set_variation_by_axes([1000])
-
     title_font = ImageFont.truetype(
         "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 24
     )
@@ -66,8 +56,8 @@ try:
         draw,
         display_wh_px=(epd.width, epd.height),
         max_width_ratio=0.8,
-        font=quote_font,
-        font_bold=quote_bold_font,
+        max_height_ratio=0.8,
+        font_filepath=QUOTE_FONT_FILEPATH,
     )
     draw_title_author(
         title,
