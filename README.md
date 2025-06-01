@@ -25,3 +25,13 @@ TODO list needed hardware, i.e., with images
 8. Restart
 9. Run test script -- `sudo python test.py` TODO WRITE IT, E.G. HELLO WORLD
 
+# Content
+
+```bash
+├── data/ # Where the quotes are stored, sourced from https://github.com/JohannesNE/literature-clock
+├── fonts/ # Fonts, sourced from https://fonts.google.com/
+├── notebooks/ # Notebooks used to prepare the data and 
+├── waveshare_epd/ # Waveshare-sourced libraries to talk to the e-paper screen (only the 7in5 screen)
+├── draw_current_time.py # Main script TODO should it be renamed main then ?..
+└── README.md 
+```
