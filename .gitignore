@@ -3,3 +3,4 @@
 __pycache__
 .pyc
 .ipynb_checkpoints
+.last_full_refresh_dt

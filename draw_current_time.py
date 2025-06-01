@@ -4,6 +4,7 @@ import random
 import time
 import traceback
 from datetime import datetime, timedelta
+from pathlib import Path 
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -11,6 +12,8 @@ from waveshare_epd import epd7in5_V2
 
 logging.basicConfig(level=logging.DEBUG)
 
+LAST_FULL_REFRESH_DT_FILEPATH = Path('.last_full_refresh_dt')
+FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
 
 def randomly_select_quote_title_author() -> tuple[str, str, str]:
 
@@ -124,11 +127,14 @@ try:
     
     # Do a full refresh if you haven't done one in >24h
     # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
-    now = datetime.now() 
-    if last_full_refresh_dt - now > timedelta(hours=24) or last_full_refresh_dt.date() == now.date():
+    now = datetime.now()
+    last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
+    last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str)
+            
+    if last_full_refresh_dt - now > timedelta(hours=24) or (last_full_refresh_dt.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
         epd.init()
         epd.Clear()
-        last_full_refresh_dt = now
+        LAST_FULL_REFRESH_DT_FILEPATH.write_text(last_full_refresh_dt.isoformat())
         
     epd.init_part() # Needed after waking from sleep-mode
 
