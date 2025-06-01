@@ -3,7 +3,7 @@ import logging
 import random
 import time
 import traceback
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -121,6 +121,15 @@ try:
 
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
+    
+    # Do a full refresh if you haven't done one in >24h
+    # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
+    now = datetime.now() 
+    if last_full_refresh_dt - now > timedelta(hours=24) or last_full_refresh_dt.date() == now.date():
+        epd.init()
+        epd.Clear()
+        last_full_refresh_dt = now
+        
     epd.init_part() # Needed after waking from sleep-mode
 
     # Figure out which text to draw
@@ -148,9 +157,10 @@ try:
     )
 
     # Display image
+    # Note that parial display allows for a faster/cleaner refresh (visually), but should not always be done.
+    # A full refresh of the screen should be done at least every 24h, as per https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT_Manual
     epd.display_Partial(epd.getbuffer(image), 0, 0, epd.width, epd.height)
-    time.sleep(2)
-
+           
     # Enter sleep mode, as we don't want to screen to be on high-voltage continuously, 
     # for fear of breaking it as per https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT_Manual
     logging.info(".sleep")
