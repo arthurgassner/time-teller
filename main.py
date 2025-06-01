@@ -21,11 +21,6 @@ MAX_WIDTH_RATIO = 0.8
 MAX_HEIGHT_RATIO = 0.65
 
 try:
-    # Load and setup fonts
-    title_font = ImageFont.truetype(str(ITALIC_FONT_FILEPATH), 24)
-    author_font = ImageFont.truetype(str(FONT_FILEPATH), 22)
-    author_font.set_variation_by_axes([500])
-
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
     
@@ -63,8 +58,8 @@ try:
         display_wh_px=(epd.width, epd.height),
         xy_offset_px=(20, 20),
         title_author_gap_px=5,
-        title_font=title_font,
-        author_font=author_font,
+        title_font_filepath=ITALIC_FONT_FILEPATH,
+        author_font_filepath=FONT_FILEPATH,
     )
 
     # Display image

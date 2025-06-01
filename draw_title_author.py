@@ -1,4 +1,5 @@
 from PIL import ImageDraw, ImageFont
+from pathlib import Path
 
 def draw_title_author(
     title: str,
@@ -7,9 +8,14 @@ def draw_title_author(
     display_wh_px: tuple[int, int],
     xy_offset_px: tuple[int, int],
     title_author_gap_px: int,
-    title_font: ImageFont.FreeTypeFont,
-    author_font: ImageFont.FreeTypeFont,
+    title_font_filepath: Path,
+    author_font_filepath: Path,
 ) -> None:
+    # Figure out fonts
+    title_font = ImageFont.truetype(str(title_font_filepath), 24)
+    author_font = ImageFont.truetype(str(author_font_filepath), 22)
+    author_font.set_variation_by_axes([500])
+    
     # Measure both lines
     title_bbox = draw.textbbox((0, 0), title, font=title_font)
     author_bbox = draw.textbbox((0, 0), author, font=author_font)
