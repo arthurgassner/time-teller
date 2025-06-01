@@ -18,7 +18,7 @@ FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
 FONT_FILEPATH = Path("fonts/CormorantGaramond-VariableFont_wght.ttf")
 ITALIC_FONT_FILEPATH = Path("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
 MAX_WIDTH_RATIO = 0.8
-MAX_HEIGHT_RATIO = 0.65
+MAX_HEIGHT_RATIO = 0.6
 
 try:
     logging.info("Initialized EPD")
@@ -28,15 +28,17 @@ try:
     # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
     now = datetime.now()
     last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
-    last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str)
+    last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n'))
             
+    epd.init() # Needed after waking from sleep-mode
     if last_full_refresh_dt - now > timedelta(minutes=20) or (last_full_refresh_dt.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
-        epd.init()
+        logging.info("Clearing the screen...")
         epd.Clear()
-        LAST_FULL_REFRESH_DT_FILEPATH.write_text(last_full_refresh_dt.isoformat())
+        LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
+        print('aaa')
         
-    epd.init_part() # Needed after waking from sleep-mode
-
+    epd.init_part() 
+    
     # Figure out which text to draw
     quote, title, author = randomly_select_quote_title_author()
 
