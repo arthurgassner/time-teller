@@ -121,8 +121,7 @@ try:
 
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
-    epd.init() # Needed after waking from sleep-mode
-    epd.Clear() # Clear the screen's content
+    epd.init_part() # Needed after waking from sleep-mode
 
     # Figure out which text to draw
     quote, title, author = randomly_select_quote_title_author()
@@ -149,7 +148,7 @@ try:
     )
 
     # Display image
-    epd.display(epd.getbuffer(image))
+    epd.display_Partial(epd.getbuffer(image), 0, 0, epd.width, epd.height)
     time.sleep(2)
 
     # Enter sleep mode, as we don't want to screen to be on high-voltage continuously, 
