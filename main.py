@@ -15,18 +15,13 @@ logging.basicConfig(level=logging.DEBUG)
 
 LAST_FULL_REFRESH_DT_FILEPATH = Path('.last_full_refresh_dt')
 FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
-QUOTE_FONT_FILEPATH = Path("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
-
-
+FONT_FILEPATH = Path("fonts/CormorantGaramond-VariableFont_wght.ttf")
+ITALIC_FONT_FILEPATH = Path("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
 
 try:
     # Load and setup fonts
-    title_font = ImageFont.truetype(
-        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 24
-    )
-    author_font = ImageFont.truetype(
-        "fonts/CormorantGaramond-VariableFont_wght.ttf", 22
-    )
+    title_font = ImageFont.truetype(str(ITALIC_FONT_FILEPATH), 24)
+    author_font = ImageFont.truetype(str(FONT_FILEPATH), 22)
     author_font.set_variation_by_axes([500])
 
     logging.info("Initialized EPD")
@@ -38,7 +33,7 @@ try:
     last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
     last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str)
             
-    if last_full_refresh_dt - now > timedelta(hours=24) or (last_full_refresh_dt.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
+    if last_full_refresh_dt - now > timedelta(minutes=20) or (last_full_refresh_dt.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
         epd.init()
         epd.Clear()
         LAST_FULL_REFRESH_DT_FILEPATH.write_text(last_full_refresh_dt.isoformat())
@@ -56,8 +51,8 @@ try:
         draw,
         display_wh_px=(epd.width, epd.height),
         max_width_ratio=0.8,
-        max_height_ratio=0.8,
-        font_filepath=QUOTE_FONT_FILEPATH,
+        max_height_ratio=0.7,
+        font_filepath=ITALIC_FONT_FILEPATH,
     )
     draw_title_author(
         title,
