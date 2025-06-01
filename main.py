@@ -23,6 +23,7 @@ MAX_HEIGHT_RATIO = 0.6
 try:
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
+    epd.init() # Needed after waking from sleep-mode
     
     # Do a full refresh if you haven't done one in >24h
     # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
@@ -30,7 +31,6 @@ try:
     last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
     last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n'))
             
-    epd.init() # Needed after waking from sleep-mode
     if last_full_refresh_dt - now > timedelta(minutes=20) or (last_full_refresh_dt.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
         logging.info("Clearing the screen...")
         epd.Clear()
