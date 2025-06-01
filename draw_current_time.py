@@ -5,6 +5,7 @@ import time
 import traceback
 from datetime import datetime, timedelta
 from pathlib import Path 
+import re 
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -15,66 +16,111 @@ logging.basicConfig(level=logging.DEBUG)
 LAST_FULL_REFRESH_DT_FILEPATH = Path('.last_full_refresh_dt')
 FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
 
+
 def randomly_select_quote_title_author() -> tuple[str, str, str]:
 
     # Figure out the current time
     now = datetime.now()
     now_str = f"{now.hour:02}:{now.minute:02}"
     logging.debug(f"Selected time: {now_str}")
-
+    
     # Load the file containing the relevant quotes
-    with open(f"data/quotes/{now_str}.csv", newline="") as f:
+    with open(f"../data/quotes/{now_str}.csv", newline='') as f:
         reader = csv.reader(f)
         csv_rows = list(reader)
 
     # Randomly select one row
-    selected_row_idx = random.randint(0, len(csv_rows) - 1)
-    selected_csv_row = "".join(csv_rows[selected_row_idx])
+    selected_row_idx = random.randint(0, len(csv_rows)-1)
+    selected_csv_row = ''.join(csv_rows[selected_row_idx])   
 
-    _, quote, title, author = selected_csv_row.split("|")
-
+    _, quote, title, author = selected_csv_row.split('|')
+    
     return quote, title, author
 
 
+def parse_quote(text: str) -> list[tuple[str, bool]]:
+    """Parse quote into segments: list of (text, is_bold)"""
+    segments = []
+    pattern = re.compile(r"(<b>.*?</b>)")
+    parts = pattern.split(text)
+    for part in parts:
+        if part.startswith("<b>") and part.endswith("</b>"):
+            segments.append((part[3:-4], True))
+        else:
+            segments.append((part, False))
+    return segments
+
 def draw_quote(
     quote: str,
-    draw: ImageDraw,
+    draw: ImageDraw.ImageDraw,
     display_wh_px: tuple[int, int],
     max_width_ratio: float,
-    font: ImageFont,
+    font: ImageFont.FreeTypeFont,
+    font_bold: ImageFont.FreeTypeFont,
 ) -> None:
     max_line_width_px = int(display_wh_px[0] * max_width_ratio)
-    words = quote.split()
 
-    # Figure out whether each word belongs on the current line, or the next
+    segments = parse_quote(quote)
+
+    # Split segments into words, retaining bold info
+    words = []
+    for segment, is_bold in segments:
+        for word in segment.split():
+            words.append((word, is_bold))
+
+    # Word wrapping with bold-aware measurement
     lines = []
-    curr_line = ""
-    for word in words:
-        test_line = f"{curr_line} {word}".strip()
-        bbox = draw.textbbox((0, 0), test_line, font=font)
-        test_width_px = bbox[2] - bbox[0]
-        if test_width_px <= max_line_width_px:
+    curr_line = []
+    while words:
+        word, is_bold = words.pop(0)
+        test_line = curr_line + [(word, is_bold)]
+        test_text = " ".join(w for w, _ in test_line)
+        test_width = 0
+        for w, bold in test_line:
+            f = font_bold if bold else font
+            bbox = draw.textbbox((0, 0), w, font=f)
+            test_width += bbox[2] - bbox[0]
+        test_width += (len(test_line) - 1) * draw.textlength(" ", font=font)  # add spaces
+
+        if test_width <= max_line_width_px:
             curr_line = test_line
         else:
             lines.append(curr_line)
-            curr_line = word
+            curr_line = [(word, is_bold)]
 
     # Handle trailing line
     if curr_line:
         lines.append(curr_line)
 
     # Figure out the text's height [px]
-    line_height_px = font.getbbox("Ay")[3] - font.getbbox("Ay")[1]
-    text_height_px = len(lines) * line_height_px
-    y_offset = (display_wh_px[1] - text_height_px) // 2
+    line_height = max(font.getbbox("Ay")[3] - font.getbbox("Ay")[1],
+                      font_bold.getbbox("Ay")[3] - font_bold.getbbox("Ay")[1])
+    total_height = len(lines) * line_height
+    y_offset = (display_wh_px[1] - total_height) // 2
 
-    # Draw each line centered
+    # Draw each line
     for line in lines:
-        bbox = draw.textbbox((0, 0), line, font=font)
-        line_width = bbox[2] - bbox[0]
-        x = (display_wh_px[0] - line_width) // 2
-        draw.text((x, y_offset), line, font=font, fill=0)
-        y_offset += line_height_px
+        # Measure total line width
+        line_width = 0
+        for word, bold in line:
+            f = font_bold if bold else font
+            bbox = draw.textbbox((0, 0), word, font=f)
+            line_width += bbox[2] - bbox[0]
+        line_width += (len(line) - 1) * draw.textlength(" ", font=font)
+
+        x_offset = (display_wh_px[0] - line_width) // 2
+
+        # Draw each word
+        for i, (word, bold) in enumerate(line):
+            f = font_bold if bold else font
+            draw.text((x_offset, y_offset), word, font=f, fill=0)
+            word_width = draw.textbbox((x_offset, y_offset), word, font=f)[2] - x_offset
+            x_offset += word_width
+            if i < len(line) - 1:
+                space_width = draw.textlength(" ", font=font)
+                x_offset += space_width
+
+        y_offset += line_height
 
 
 def draw_title_author(
@@ -84,8 +130,8 @@ def draw_title_author(
     display_wh_px: tuple[int, int],
     xy_offset_px: tuple[int, int],
     title_author_gap_px: int,
-    title_font: ImageFont,
-    author_font: ImageFont,
+    title_font: ImageFont.FreeTypeFont,
+    author_font: ImageFont.FreeTypeFont,
 ) -> None:
     # Measure both lines
     title_bbox = draw.textbbox((0, 0), title, font=title_font)
@@ -113,6 +159,11 @@ try:
         "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 50
     )
     quote_font.set_variation_by_axes([200])
+    
+    quote_bold_font = ImageFont.truetype(
+        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 50
+    )
+    quote_bold_font.set_variation_by_axes([1000])
 
     title_font = ImageFont.truetype(
         "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 24
@@ -150,6 +201,7 @@ try:
         display_wh_px=(epd.width, epd.height),
         max_width_ratio=0.8,
         font=quote_font,
+        font_bold=quote_bold_font,
     )
     draw_title_author(
         title,
