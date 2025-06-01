@@ -107,8 +107,10 @@ def draw_title_author(
 try:
     # Load and setup fonts
     quote_font = ImageFont.truetype(
-        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 28
+        "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 40
     )
+    quote_font.set_variation_by_axes([500])
+
     title_font = ImageFont.truetype(
         "fonts/CormorantGaramond-Italic-VariableFont_wght.ttf", 24
     )
