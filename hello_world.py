@@ -11,7 +11,7 @@ from waveshare_epd import epd7in5_V2
 
 logging.basicConfig(level=logging.DEBUG)
 
-font = ImageFont.truetype("fonts/CormorantGaramond-VariableFont_wght.ttf", 22)
+font = ImageFont.truetype("fonts/CormorantGaramond-VariableFont_wght.ttf", 42)
 
 try:
     logging.info("Initialized EPD")
