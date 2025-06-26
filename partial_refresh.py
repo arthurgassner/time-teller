@@ -25,7 +25,7 @@ try:
     # Draw image
     image = Image.new(mode="1", size=(epd.width, epd.height), color=1)
     draw = ImageDraw.Draw(image)
-    draw.text((epd.width // 2, epd.height // 2), 'This is a partial refresh.', font=font, fill=0) 
+    draw.text((epd.width // 3, epd.height // 3), 'This is a partial refresh.', font=font, fill=0) 
     
     # Display image on the screen, using a partial-refresh approach
     epd.display_Partial(epd.getbuffer(image), 0, 0, epd.width, epd.height)
