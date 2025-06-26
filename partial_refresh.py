@@ -1,3 +1,6 @@
+"""Perform a full-refresh of the e-ink screen.
+"""
+
 import logging
 import time
 import traceback
@@ -17,23 +20,22 @@ try:
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
     
-    epd.init() # Needed after waking from sleep-mode
+    epd.init_part() # Need to .init after waking from sleep-mode
 
     # Draw image
     image = Image.new(mode="1", size=(epd.width, epd.height), color=1)
     draw = ImageDraw.Draw(image)
-    draw.text((0,0), 'Hello World', font=font, fill=0) # Hello world at the top left
+    draw.text((epd.width // 2, epd.height // 2), 'This is a partial refresh.', font=font, fill=0) 
     
-    # Display image on the screen
-    epd.display(epd.getbuffer(image))
+    # Display image on the screen, using a partial-refresh approach
+    epd.display_Partial(epd.getbuffer(image), 0, 0, epd.width, epd.height)
     
-    time.sleep(5)
+    time.sleep(1)
    
     # Enter sleep mode, as we don't want to screen to be on high-voltage continuously, 
     # for fear of breaking it as per https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT_Manual
     logging.info(".sleep")
     epd.sleep()
-
 except IOError as e:
     logging.info(e)
 

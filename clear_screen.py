@@ -1,3 +1,6 @@
+"""Clear what is on the screen of the e-ink screen.
+"""
+
 import logging
 import time
 import traceback
