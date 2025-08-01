@@ -1,0 +1,12 @@
+[Unit]
+Description=Literature Clock
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python /home/pi/literature-clock/main.py
+RemainAfterExit=true
+User=pi
+
+[Install]
+WantedBy=multi-user.target
