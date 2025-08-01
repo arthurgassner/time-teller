@@ -5,7 +5,7 @@ TODO LINK WEBSITE
 # How to install
 
 > [!IMPORTANT]
-> This software is meant to be run on a RPi Zero 2W hooked to a Waveshare’s 7.5inch e-Paper screen.
+> This script is meant to be run on a RPi Zero 2W hooked to a Waveshare’s 7.5inch e-Paper screen.
 > To set it up correctly, please follow TODO LINK WEBSITE
 
 1. Install the necessary libraries with
@@ -35,3 +35,8 @@ pip install -r requirements.txt
 ├── draw_current_time.py # Main script TODO should it be renamed main then ?..
 └── README.md 
 ```
+
+# TODOs
+
+- [ ] Finish this README
+- [ ] Avoid having .last_refresh_dt committed 
