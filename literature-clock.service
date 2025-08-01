@@ -5,6 +5,7 @@ After=multi-user.target
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/python /home/pi/literature-clock/main.py
+WorkingDirectory=/home/pi/literature-clock
 RemainAfterExit=true
 User=pi
 
