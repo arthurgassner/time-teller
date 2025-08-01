@@ -1,21 +1,21 @@
 # Literature-clock
 
-# Setup hardware
+TODO LINK WEBSITE
 
-TODO list needed hardware, i.e., with images
+# How to install
 
-- 7.5 inch waveshare e-paper screen
-- e-Paper driver HAT
-- micro usb cable 
-- pi zero 2w with soldered pins
-- SD card
+> [!IMPORTANT]
+> This software is meant to be run on a RPi Zero 2W hooked to a Waveshare’s 7.5inch e-Paper screen.
+> To set it up correctly, please follow TODO LINK WEBSITE
 
-1. Flash SD card following raspberry tutorial 
-    - put in your SSID/password and SSH pub key
-2. SSH into pi zero
-3. Install zsh 
-4. Clone this repo
-5. Install uv 
+1. Install the necessary libraries with
+
+```bash
+pip install -r requirements.txt
+```
+
+2. 
+
 6. Install necessary libraries 
 -- test with requirements.txt
 - uv pip install rpi-gpio
