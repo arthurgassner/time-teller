@@ -3,6 +3,7 @@ import time
 import traceback
 from datetime import datetime, timedelta
 from pathlib import Path 
+from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -27,7 +28,7 @@ try:
     
     # Do a full refresh if you haven't done one in >24h
     # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
-    now = datetime.now()
+    now = datetime.now(ZoneInfo("Europe/Zurich"))
     last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
     last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n'))
             
