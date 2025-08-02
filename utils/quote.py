@@ -20,11 +20,11 @@ class Quote:
         hhmm = f"{dt.hour:02}:{dt.minute:02}"
         logging.debug(f"Selected time: {hhmm}")
         
-        # Load the file containing the relevant quotes
         quote_filepath = Path(f"data/quotes/{hhmm}.csv")
         if not quote_filepath.is_file():
             return Quote(quote=f"Welp.\n It seems no quote exists for {hhmm}.", author="Someone", title="Some book", hhmm=hhmm)
-        
+
+        # Load the file containing the relevant quotes
         with quote_filepath.open(newline='') as f:
             reader = csv.reader(f)
             csv_rows = list(reader)
