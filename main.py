@@ -5,10 +5,10 @@ from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw
 
+from utils.quote import Quote
 from utils.waveshare_epd import epd7in5_V2
 from utils.draw_title_author import draw_title_author
 from utils.draw_quote import draw_quote
-from utils.randomly_select_quote import randomly_select_quote
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -43,7 +43,7 @@ try:
     epd.init_part() 
     
     # Figure out which text to draw
-    quote = randomly_select_quote(dt=now)
+    quote = Quote.randomly_select_quote(dt=now)
 
     # Draw image
     image = Image.new(mode="1", size=(epd.width, epd.height), color=1)
