@@ -1,11 +1,9 @@
 import logging
-import time
-import traceback
 from datetime import datetime, timedelta
 from pathlib import Path 
 from zoneinfo import ZoneInfo
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 from waveshare_epd import epd7in5_V2
 from draw_title_author import draw_title_author
