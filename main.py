@@ -26,9 +26,11 @@ try:
     epd.init() # Needed after waking from sleep-mode
     
     # Figure out when was the last full refresh
-    last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
-    last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n'))
-    last_full_refresh_dt = last_full_refresh_dt.replace(tzinfo=TZ)
+    last_full_refresh_dt = FULL_REFRESH_DT.replace(tzinfo=TZ)
+    if LAST_FULL_REFRESH_DT_FILEPATH.is_file():
+        last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
+        last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n'))
+        last_full_refresh_dt = last_full_refresh_dt.replace(tzinfo=TZ)
     
     # Do a full refresh if you haven't done one in >24h
     # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
