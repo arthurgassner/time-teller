@@ -21,11 +21,16 @@ pip install -r requirements.txt
 # Content
 
 ```bash
-├── data/ # Where the quotes are stored, sourced from https://github.com/JohannesNE/literature-clock
-├── fonts/ # Fonts, sourced from https://fonts.google.com/
-├── notebooks/ # Notebooks used to prepare the data and 
-├── waveshare_epd/ # Waveshare-sourced libraries to talk to the e-paper screen (only the 7in5 screen)
-├── draw_current_time.py # Main script TODO should it be renamed main then ?..
+├── data/ # Where the fonts & quotes are stored, sourced from https://github.com/JohannesNE/literature-clock and https://fonts.google.com/
+├── 3d-models/ # 3D models of the cases
+├── notebooks/ # Notebooks used to prepare the data and develop
+├── utils/ # Utils for the script to run
+├── tests/ # pytest
+├── main.py # Main script
+├── hello_world.py # Script displaying "Hello World" on the screen
+├── full_refresh.py # Script performing a full refresh on the screen (see TODO LINK WEBSITE)
+├── partial_refresh.py # Script performing a partial refresh on the screen (see TODO LINK WEBSITE)
+├── clear_screen.py # Script clearing the screen
 └── README.md 
 ```
 
