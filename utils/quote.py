@@ -2,6 +2,7 @@ import csv
 from dataclasses import dataclass
 from datetime import datetime
 import logging
+from pathlib import Path
 import random
 
 
@@ -20,7 +21,11 @@ class Quote:
         logging.debug(f"Selected time: {hhmm}")
         
         # Load the file containing the relevant quotes
-        with open(f"data/quotes/{hhmm}.csv", newline='') as f:
+        quote_filepath = Path(f"data/quotes/{hhmm}.csv")
+        if not quote_filepath.is_file():
+            return Quote(quote=f"Welp.\n It seems no quote exists for {hhmm}.", author="Someone", title="Some book", hhmm=hhmm)
+        
+        with quote_filepath.open(newline='') as f:
             reader = csv.reader(f)
             csv_rows = list(reader)
 
