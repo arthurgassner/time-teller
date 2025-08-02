@@ -2,11 +2,13 @@
 
 TODO LINK WEBSITE
 
+TODO ADD IMAGE
+
 # How to install
 
 > [!IMPORTANT]
 > This script is meant to be run on a RPi Zero 2W hooked to a Waveshare’s 7.5inch e-Paper screen.
-> To set it up correctly, please follow TODO LINK WEBSITE
+> To prepare the RPi correctly, please follow TODO LINK WEBSITE
 
 1. Install the necessary libraries with
 
@@ -14,16 +16,7 @@ TODO LINK WEBSITE
 pip install -r requirements.txt
 ```
 
-2. 
-
-6. Install necessary libraries 
--- test with requirements.txt
-- uv pip install rpi-gpio
-- uv pip install gpiozero
-- uv pip install pillow
-7. Connect screen
-8. Restart
-9. Run test script -- `sudo python test.py` TODO WRITE IT, E.G. HELLO WORLD
+2. Ensure you're able to print to the screen by running `python hello_world.py`
 
 # Content
 
@@ -39,4 +32,3 @@ pip install -r requirements.txt
 # TODOs
 
 - [ ] Finish this README
-- [ ] Avoid having .last_refresh_dt committed 
