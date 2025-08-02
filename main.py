@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 from utils.waveshare_epd import epd7in5_V2
 from utils.draw_title_author import draw_title_author
 from utils.draw_quote import draw_quote
-from utils.randomly_select_quote_title_author import randomly_select_quote_title_author
+from utils.randomly_select_quote import randomly_select_quote
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -41,13 +41,13 @@ try:
     epd.init_part() 
     
     # Figure out which text to draw
-    quote, title, author = randomly_select_quote_title_author(dt=now)
+    quote = randomly_select_quote(dt=now)
 
     # Draw image
     image = Image.new(mode="1", size=(epd.width, epd.height), color=1)
     draw = ImageDraw.Draw(image)
     draw_quote(
-        quote,
+        quote.quote,
         draw,
         display_wh_px=(epd.width, epd.height),
         max_width_ratio=MAX_WIDTH_RATIO,
@@ -55,8 +55,8 @@ try:
         font_filepath=ITALIC_FONT_FILEPATH,
     )
     draw_title_author(
-        title,
-        f"— {author}",
+        quote.title,
+        f"— {quote.author}",
         draw,
         display_wh_px=(epd.width, epd.height),
         xy_offset_px=(20, 20),
