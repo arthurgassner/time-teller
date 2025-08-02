@@ -81,6 +81,6 @@ except IOError as e:
     logging.info(e)
 
 except KeyboardInterrupt:
-    logging.info("ctrl + c:")
+    logging.info("Ctrl + C:")
     epd7in5_V2.epdconfig.module_exit(cleanup=True)
     exit()
