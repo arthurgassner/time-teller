@@ -33,7 +33,3 @@ pip install -r requirements.txt
 ├── clear_screen.py # Script clearing the screen
 └── README.md 
 ```
-
-# TODOs
-
-- [ ] Finish this README
