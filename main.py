@@ -5,10 +5,10 @@ from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw
 
-from waveshare_epd import epd7in5_V2
-from draw_title_author import draw_title_author
-from draw_quote import draw_quote
-from randomly_select_quote_title_author import randomly_select_quote_title_author
+from utils.waveshare_epd import epd7in5_V2
+from utils.draw_title_author import draw_title_author
+from utils.draw_quote import draw_quote
+from utils.randomly_select_quote_title_author import randomly_select_quote_title_author
 
 logging.basicConfig(level=logging.DEBUG)
 
