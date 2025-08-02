@@ -8,11 +8,11 @@ from utils.quote import Quote
 def randomly_select_quote(dt: datetime) -> Quote:
 
     # Figure out the current time
-    dt_str = f"{dt.hour:02}:{dt.minute:02}"
-    logging.debug(f"Selected time: {dt_str}")
+    hhmm = f"{dt.hour:02}:{dt.minute:02}"
+    logging.debug(f"Selected time: {hhmm}")
     
     # Load the file containing the relevant quotes
-    with open(f"data/quotes/{dt_str}.csv", newline='') as f:
+    with open(f"data/quotes/{hhmm}.csv", newline='') as f:
         reader = csv.reader(f)
         csv_rows = list(reader)
 
@@ -25,4 +25,4 @@ def randomly_select_quote(dt: datetime) -> Quote:
     # Fix endlines
     quote = quote.replace('<br/>', '\n')
     
-    return Quote(quote=quote, author=author, title=title)
+    return Quote(quote=quote, author=author, title=title, hhmm=hhmm)
