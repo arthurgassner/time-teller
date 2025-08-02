@@ -3,18 +3,15 @@
 
 import logging
 import time
-import traceback
-from datetime import datetime, timedelta
-from pathlib import Path 
 import time 
 
 from PIL import Image, ImageDraw, ImageFont
 
-from waveshare_epd import epd7in5_V2
+from utils.waveshare_epd import epd7in5_V2
 
 logging.basicConfig(level=logging.DEBUG)
 
-font = ImageFont.truetype("fonts/CormorantGaramond-VariableFont_wght.ttf", 42)
+font = ImageFont.truetype("data/fonts/CormorantGaramond-VariableFont_wght.ttf", 42)
 
 try:
     logging.info("Initialized EPD")

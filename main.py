@@ -14,8 +14,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 LAST_FULL_REFRESH_DT_FILEPATH = Path('.last_full_refresh_dt')
 FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
-FONT_FILEPATH = Path("fonts/CormorantGaramond-VariableFont_wght.ttf")
-ITALIC_FONT_FILEPATH = Path("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
+FONT_FILEPATH = Path("data/fonts/CormorantGaramond-VariableFont_wght.ttf")
+ITALIC_FONT_FILEPATH = Path("data/fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
 TZ = ZoneInfo("Europe/Zurich")
 MAX_WIDTH_RATIO = 0.8
 MAX_HEIGHT_RATIO = 0.6
