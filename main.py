@@ -41,7 +41,7 @@ try:
     epd.init_part() 
     
     # Figure out which text to draw
-    quote, title, author = randomly_select_quote_title_author()
+    quote, title, author = randomly_select_quote_title_author(dt=now)
 
     # Draw image
     image = Image.new(mode="1", size=(epd.width, epd.height), color=1)
