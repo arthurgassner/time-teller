@@ -1,0 +1,18 @@
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+from utils.quote import Quote
+from utils.randomly_select_quote import randomly_select_quote
+
+def test_randomly_select_quote():
+    """Ensure randomly selecting a quote/title/author works as expected."""
+
+    # Given
+    dt = datetime.now(tz=ZoneInfo("Europe/Zurich"))
+
+    # When
+    quote = randomly_select_quote(dt=dt)    
+
+    # Then
+    assert type(quote) is Quote
+    assert quote.hhmm == f"{dt.hour:02}:{dt.minute:02}"
