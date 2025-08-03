@@ -12,6 +12,7 @@ from utils.draw_quote import draw_quote
 logging.basicConfig(level=logging.DEBUG)
 
 FULL_REFRESH_TRIGGER_TIME = time(hour=2, minute=0)
+FULL_REFRESH_MAX_TIMEDELTA = timedelta(hours=24)
 MAX_WIDTH_RATIO = 0.8
 MAX_HEIGHT_RATIO = 0.6
 
@@ -30,7 +31,7 @@ try:
         epd.Clear()
         get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
 
-    if get_settings().LAST_FULL_REFRESH_DT - now > timedelta(minutes=20): 
+    if get_settings().LAST_FULL_REFRESH_DT - now > FULL_REFRESH_MAX_TIMEDELTA: 
         logging.info("Too long since last full refresh: Clearing the screen...")
         epd.Clear()
         get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
