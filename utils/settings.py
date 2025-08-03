@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     ROOT_FOLDERPATH : Path = Path(__file__).resolve().parent.parent
     FONT_FILEPATH: Path = ROOT_FOLDERPATH / "data" / "fonts" / "CormorantGaramond-VariableFont_wght.ttf"
     ITALIC_FONT_FILEPATH: Path = ROOT_FOLDERPATH / "data" / "fonts" / "CormorantGaramond-Italic-VariableFont_wght.ttf"
+    QUOTE_MAX_WIDTH_RATIO: float = 0.8 # Max screen width proportion ([0;1]) within which the written quote sits
+    QUOTE_MAX_HEIGHT_RATIO: float = 0.6 # Max screen height proportion ([0;1]) within which the written quote sits
 
     # Full-refresh-related settings
     TZ: ZoneInfo = ZoneInfo("Europe/Zurich")

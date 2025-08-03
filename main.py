@@ -11,9 +11,6 @@ from utils.draw_quote import draw_quote
 
 logging.basicConfig(level=logging.DEBUG)
 
-MAX_WIDTH_RATIO = 0.8
-MAX_HEIGHT_RATIO = 0.6
-
 try:
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
@@ -46,8 +43,8 @@ try:
         quote.quote,
         draw,
         display_wh_px=(epd.width, epd.height),
-        max_width_ratio=MAX_WIDTH_RATIO,
-        max_height_ratio=MAX_HEIGHT_RATIO,
+        max_width_ratio=get_settings().QUOTE_MAX_WIDTH_RATIO,
+        max_height_ratio=get_settings().QUOTE_MAX_HEIGHT_RATIO,
         font_filepath=get_settings().ITALIC_FONT_FILEPATH,
     )
     draw_title_author(
