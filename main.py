@@ -20,17 +20,10 @@ try:
     epd = epd7in5_V2.EPD()
     epd.init() # Needed after waking from sleep-mode
     
-    # Figure out when was the last full refresh
-    last_full_refresh_dt = FULL_REFRESH_DT.replace(tzinfo=get_settings().TZ)
-    if get_settings().LAST_FULL_REFRESH_DT_FILEPATH.is_file():
-        last_full_refresh_dt_str = get_settings().LAST_FULL_REFRESH_DT_FILEPATH.read_text()
-        last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n'))
-        last_full_refresh_dt = last_full_refresh_dt.replace(tzinfo=get_settings().TZ)
-    
     # Do a full refresh if you haven't done one in >24h
     # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
     now = datetime.now(tz=get_settings().TZ) 
-    if last_full_refresh_dt - now > timedelta(minutes=20) or (last_full_refresh_dt.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
+    if get_settings().LAST_FULL_REFRESH_DT - now > timedelta(minutes=20) or (get_settings().LAST_FULL_REFRESH_DT.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
         logging.info("Clearing the screen...")
         epd.Clear()
         get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
