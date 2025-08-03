@@ -1,4 +1,4 @@
-# :clock: Literature clock
+# :clock10: Literature clock
 
 <br>
 
@@ -39,8 +39,8 @@ uv pip install -r requirements.txt
 ├── tests/ # pytest
 ├── main.py # Main script
 ├── hello_world.py # Script displaying "Hello World" on the screen
-├── full_refresh.py # Script performing a full refresh on the screen (see TODO LINK WEBSITE)
-├── partial_refresh.py # Script performing a partial refresh on the screen (see TODO LINK WEBSITE)
+├── full_refresh.py # Script performing a full refresh on the screen (see https://literature-clock.arthurgassner.ch/#step-3-display-something-on-the-screen)
+├── partial_refresh.py # Script performing a partial refresh on the screen (see https://literature-clock.arthurgassner.ch/#step-3-display-something-on-the-screen)
 ├── clear_screen.py # Script clearing the screen
 └── README.md 
 ```
