@@ -25,11 +25,16 @@ try:
     # 1. You haven't done one today (DD.MM.YYYY) AND you've passed FULL_REFRESH_TRIGGER_TIME (HH:MM:SS)
     # 2. The last one was >24h ago
     now = datetime.now(tz=get_settings().TZ) 
-    if (get_settings().LAST_FULL_REFRESH_DT.date() < now.date() and now.time() > FULL_REFRESH_TRIGGER_TIME) or (get_settings().LAST_FULL_REFRESH_DT - now > timedelta(minutes=20)):
-        logging.info("Clearing the screen...")
+    if get_settings().LAST_FULL_REFRESH_DT.date() < now.date() and now.time() > FULL_REFRESH_TRIGGER_TIME:
+        logging.info("Trigger time passed: Clearing the screen...")
         epd.Clear()
         get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
-        
+
+    if get_settings().LAST_FULL_REFRESH_DT - now > timedelta(minutes=20): 
+        logging.info("Too long since last full refresh: Clearing the screen...")
+        epd.Clear()
+        get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
+
     epd.init_part() 
     
     # Figure out which text to draw
