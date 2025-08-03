@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from functools import lru_cache
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     LAST_FULL_REFRESH_DT_FILEPATH: Path = ROOT_FOLDERPATH / ".last_full_refresh_dt"
     # Time (HH:MM:SS) after which a full-refresh is triggered, if none have been done today (dd.mm.yyyy)
     FULL_REFRESH_TRIGGER_TIME: time = time(hour=2, minute=0) 
+    # Max timedelta after which a full-refresh is triggered
+    FULL_REFRESH_MAX_TIMEDELTA: timedelta = timedelta(hours=24)
     
     @property
     def LAST_FULL_REFRESH_DT(self) -> datetime:
