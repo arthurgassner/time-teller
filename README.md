@@ -32,7 +32,7 @@ uv pip install -r requirements.txt
 ├── 3d-models/ # 3D models of the cases
 ├── notebooks/ # Notebooks used to prepare the data and develop
 ├── utils/ # Utils for the script to run
-├── tepysts/ # pytest
+├── tests/ # pytest
 ├── main.py # Main script
 ├── hello_world.py # Script displaying "Hello World" on the screen
 ├── full_refresh.py # Script performing a full refresh on the screen (see TODO LINK WEBSITE)
