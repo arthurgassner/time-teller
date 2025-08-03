@@ -22,13 +22,13 @@ try:
 
     # Do a full-refresh if 
     # 1. You haven't done one today (DD.MM.YYYY) AND you've passed FULL_REFRESH_TRIGGER_TIME (HH:MM:SS)
-    # 2. The last one was >24h ago
     now = datetime.now(tz=get_settings().TZ) 
     if get_settings().LAST_FULL_REFRESH_DT.date() < now.date() and now.time() > get_settings().FULL_REFRESH_TRIGGER_TIME:
         logging.info("Trigger time passed: Clearing the screen...")
         epd.Clear()
         get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
 
+    # 2. The last one was >FULL_REFRESH_MAX_TIMEDELTA ago
     if get_settings().LAST_FULL_REFRESH_DT - now > get_settings().FULL_REFRESH_MAX_TIMEDELTA: 
         logging.info("Too long since last full refresh: Clearing the screen...")
         epd.Clear()
