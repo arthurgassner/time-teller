@@ -10,10 +10,16 @@ TODO ADD IMAGE
 > This script is meant to be run on a RPi Zero 2W hooked to a Waveshare’s 7.5inch e-Paper screen.
 > To prepare the RPi correctly, please follow TODO LINK WEBSITE
 
-1. Install the necessary libraries with
+1. Install [`uv`](TODO LINK)
+2. Create a virtual environment with `uv venv --system-site-packages`
+
+> [!IMPORTANT]
+> The `--system-site-packages` flag is necessary because this script relies on the RPi's GPIO, and hence on system-wide packages (such as TODO).
+
+3. Install the necessary libraries with
 
 ```bash
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 2. Ensure you're able to print to the screen by running `python hello_world.py`
