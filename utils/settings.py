@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 from functools import lru_cache
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -14,7 +14,9 @@ class Settings(BaseSettings):
     TZ: ZoneInfo = ZoneInfo("Europe/Zurich")
     DEFAULT_LAST_FULL_REFRESH_DT: datetime = datetime(year=1900, month=1, day=1, hour=2, minute=0).replace(tzinfo=TZ)
     LAST_FULL_REFRESH_DT_FILEPATH: Path = ROOT_FOLDERPATH / ".last_full_refresh_dt"
-
+    # Time (HH:MM:SS) after which a full-refresh is triggered, if none have been done today (dd.mm.yyyy)
+    FULL_REFRESH_TRIGGER_TIME: time = time(hour=2, minute=0) 
+    
     @property
     def LAST_FULL_REFRESH_DT(self) -> datetime:
         """Return the datetime of the last full refresh, 

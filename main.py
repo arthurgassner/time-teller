@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 
 from PIL import Image, ImageDraw
 
@@ -11,7 +11,6 @@ from utils.draw_quote import draw_quote
 
 logging.basicConfig(level=logging.DEBUG)
 
-FULL_REFRESH_TRIGGER_TIME = time(hour=2, minute=0)
 FULL_REFRESH_MAX_TIMEDELTA = timedelta(hours=24)
 MAX_WIDTH_RATIO = 0.8
 MAX_HEIGHT_RATIO = 0.6
@@ -26,7 +25,7 @@ try:
     # 1. You haven't done one today (DD.MM.YYYY) AND you've passed FULL_REFRESH_TRIGGER_TIME (HH:MM:SS)
     # 2. The last one was >24h ago
     now = datetime.now(tz=get_settings().TZ) 
-    if get_settings().LAST_FULL_REFRESH_DT.date() < now.date() and now.time() > FULL_REFRESH_TRIGGER_TIME:
+    if get_settings().LAST_FULL_REFRESH_DT.date() < now.date() and now.time() > get_settings().FULL_REFRESH_TRIGGER_TIME:
         logging.info("Trigger time passed: Clearing the screen...")
         epd.Clear()
         get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
