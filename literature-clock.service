@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 Type=oneshot
-ExecStart=uv run /home/pi/literature-clock/main.py
+ExecStart=/home/pi/literature-clock/.venv/bin/python /home/pi/literature-clock/main.py
 WorkingDirectory=/home/pi/literature-clock
 RemainAfterExit=true
 User=pi
