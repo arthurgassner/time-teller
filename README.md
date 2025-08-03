@@ -14,7 +14,8 @@ TODO ADD IMAGE
 2. Create a virtual environment with `uv venv --system-site-packages`
 
 > [!IMPORTANT]
-> The `--system-site-packages` flag is necessary because this script relies on the RPi's GPIO, and hence on system-wide packages (such as TODO).
+> The `--system-site-packages` gives our virtual environment access to system-wide packages.
+> This is necessary because this script relies on the RPi's GPIO, and hence on `gpiozero` -- a system-wide package.
 
 3. Install the necessary libraries with
 
@@ -31,7 +32,7 @@ uv pip install -r requirements.txt
 ├── 3d-models/ # 3D models of the cases
 ├── notebooks/ # Notebooks used to prepare the data and develop
 ├── utils/ # Utils for the script to run
-├── tests/ # pytest
+├── tepysts/ # pytest
 ├── main.py # Main script
 ├── hello_world.py # Script displaying "Hello World" on the screen
 ├── full_refresh.py # Script performing a full refresh on the screen (see TODO LINK WEBSITE)
