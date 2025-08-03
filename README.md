@@ -6,7 +6,7 @@
 
 <br>
 
-TODO ADD IMAGE
+<p align="center"><img src="img/clock.jpg" width="60%"><p>
 
 # How to install
 
