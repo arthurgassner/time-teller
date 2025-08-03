@@ -23,7 +23,7 @@ TODO ADD IMAGE
 uv pip install -r requirements.txt
 ```
 
-2. Ensure you're able to print to the screen by running `python hello_world.py`
+4. Ensure you're able to print to the screen by running `uv run hello_world.py`
 
 # Content
 
