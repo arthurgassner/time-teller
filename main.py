@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 from PIL import Image, ImageDraw
 
@@ -11,7 +11,7 @@ from utils.draw_quote import draw_quote
 
 logging.basicConfig(level=logging.DEBUG)
 
-FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
+FULL_REFRESH_TRIGGER_TIME = time(hour=2, minute=0)
 MAX_WIDTH_RATIO = 0.8
 MAX_HEIGHT_RATIO = 0.6
 
@@ -19,11 +19,13 @@ try:
     logging.info("Initialized EPD")
     epd = epd7in5_V2.EPD()
     epd.init() # Needed after waking from sleep-mode
-    
-    # Do a full refresh if you haven't done one in >24h
-    # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
+
+
+    # Do a full-refresh if 
+    # 1. You haven't done one today (DD.MM.YYYY) AND you've passed FULL_REFRESH_TRIGGER_TIME (HH:MM:SS)
+    # 2. The last one was >24h ago
     now = datetime.now(tz=get_settings().TZ) 
-    if get_settings().LAST_FULL_REFRESH_DT - now > timedelta(minutes=20) or (get_settings().LAST_FULL_REFRESH_DT.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
+    if (get_settings().LAST_FULL_REFRESH_DT.date() < now.date() and now.time() > FULL_REFRESH_TRIGGER_TIME) or (get_settings().LAST_FULL_REFRESH_DT - now > timedelta(minutes=20)):
         logging.info("Clearing the screen...")
         epd.Clear()
         get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
