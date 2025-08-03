@@ -1,22 +1,17 @@
 import logging
 from datetime import datetime, timedelta
-from pathlib import Path 
-from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw
 
 from utils.quote import Quote
+from utils.settings import get_settings
 from utils.waveshare_epd import epd7in5_V2
 from utils.draw_title_author import draw_title_author
 from utils.draw_quote import draw_quote
 
 logging.basicConfig(level=logging.DEBUG)
 
-LAST_FULL_REFRESH_DT_FILEPATH = Path('.last_full_refresh_dt')
 FULL_REFRESH_DT = datetime(year=1900, month=1, day=1, hour=2, minute=0)
-FONT_FILEPATH = Path("data/fonts/CormorantGaramond-VariableFont_wght.ttf")
-ITALIC_FONT_FILEPATH = Path("data/fonts/CormorantGaramond-Italic-VariableFont_wght.ttf")
-TZ = ZoneInfo("Europe/Zurich")
 MAX_WIDTH_RATIO = 0.8
 MAX_HEIGHT_RATIO = 0.6
 
@@ -27,18 +22,18 @@ try:
     
     # Figure out when was the last full refresh
     last_full_refresh_dt = FULL_REFRESH_DT.replace(tzinfo=TZ)
-    if LAST_FULL_REFRESH_DT_FILEPATH.is_file():
-        last_full_refresh_dt_str = LAST_FULL_REFRESH_DT_FILEPATH.read_text()
+    if get_settings().LAST_FULL_REFRESH_DT_FILEPATH.is_file():
+        last_full_refresh_dt_str = get_settings().LAST_FULL_REFRESH_DT_FILEPATH.read_text()
         last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n'))
         last_full_refresh_dt = last_full_refresh_dt.replace(tzinfo=TZ)
     
     # Do a full refresh if you haven't done one in >24h
     # Also do a full refresh if you've passed <FULL_REFRESH_DT> and haven't done one today yet
-    now = datetime.now(tz=TZ) 
+    now = datetime.now(tz=get_settings().TZ) 
     if last_full_refresh_dt - now > timedelta(minutes=20) or (last_full_refresh_dt.date() != now.date() and (now.hour, now.minute) > (FULL_REFRESH_DT.hour, FULL_REFRESH_DT.minute)):
         logging.info("Clearing the screen...")
         epd.Clear()
-        LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
+        get_settings().LAST_FULL_REFRESH_DT_FILEPATH.write_text(now.isoformat())
         
     epd.init_part() 
     
@@ -54,7 +49,7 @@ try:
         display_wh_px=(epd.width, epd.height),
         max_width_ratio=MAX_WIDTH_RATIO,
         max_height_ratio=MAX_HEIGHT_RATIO,
-        font_filepath=ITALIC_FONT_FILEPATH,
+        font_filepath=get_settings().ITALIC_FONT_FILEPATH,
     )
     draw_title_author(
         quote.title,
@@ -63,8 +58,8 @@ try:
         display_wh_px=(epd.width, epd.height),
         xy_offset_px=(20, 20),
         title_author_gap_px=5,
-        title_font_filepath=ITALIC_FONT_FILEPATH,
-        author_font_filepath=FONT_FILEPATH,
+        title_font_filepath=get_settings().ITALIC_FONT_FILEPATH,
+        author_font_filepath=get_settings().FONT_FILEPATH,
     )
 
     # Display image
