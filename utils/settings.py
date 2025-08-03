@@ -9,9 +9,11 @@ class Settings(BaseSettings):
     ROOT_FOLDERPATH : Path = Path(__file__).resolve().parent.parent
     FONT_FILEPATH: Path = ROOT_FOLDERPATH / "data" / "fonts" / "CormorantGaramond-VariableFont_wght.ttf"
     ITALIC_FONT_FILEPATH: Path = ROOT_FOLDERPATH / "data" / "fonts" / "CormorantGaramond-Italic-VariableFont_wght.ttf"
-    LAST_FULL_REFRESH_DT_FILEPATH: Path = ROOT_FOLDERPATH / ".last_full_refresh_dt"
+
+    # Full-refresh-related settings
     TZ: ZoneInfo = ZoneInfo("Europe/Zurich")
     DEFAULT_LAST_FULL_REFRESH_DT: datetime = datetime(year=1900, month=1, day=1, hour=2, minute=0).replace(tzinfo=TZ)
+    LAST_FULL_REFRESH_DT_FILEPATH: Path = ROOT_FOLDERPATH / ".last_full_refresh_dt"
 
     @property
     def LAST_FULL_REFRESH_DT(self) -> datetime:
