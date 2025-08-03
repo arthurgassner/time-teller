@@ -10,7 +10,7 @@ TODO ADD IMAGE
 > This script is meant to be run on a RPi Zero 2W hooked to a Waveshare’s 7.5inch e-Paper screen.
 > To prepare the RPi correctly, please follow TODO LINK WEBSITE
 
-1. Install [`uv`](TODO LINK)
+1. Install [`uv`](https://docs.astral.sh/uv/)
 2. Create a virtual environment with `uv venv --system-site-packages`
 
 > [!IMPORTANT]
