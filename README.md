@@ -1,14 +1,19 @@
 # :clock10: Time Teller
 
-This repo contains the code powering the _Time Teller_, a literature clock driven by a Raspberry Pi 2W.
-
 <br>
 
 <p align="center">🚀 <a href="https://time-teller.arthurgassner.ch"><strong>Detailed write-up</strong></a> 🚀</p>
 
 <br>
 
+
 <p align="center"><img src="img/clock.jpg" width="60%"><p>
+
+<br> 
+
+This repo contains the code powering the _Time Teller_, a literature clock driven by a Raspberry Pi 2W.
+
+---
 
 # How to install
 
