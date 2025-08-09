@@ -33,6 +33,14 @@ class Quote:
 
     @staticmethod
     def randomly_select_quote(dt: datetime) -> "Quote":
+        """Return a randomly selected quote fitting the provided time, fetched from the quotes .csv.
+
+        Args:
+            dt (datetime): Time for which we want a quote
+
+        Returns:
+            Quote: Quote fitting the provided dt
+        """
 
         # Figure out the current time
         hhmm = f"{dt.hour:02}:{dt.minute:02}"
