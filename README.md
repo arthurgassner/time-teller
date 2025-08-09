@@ -11,7 +11,7 @@
 
 <br> 
 
-This repo contains the code powering the _Time Teller_, a literature clock driven by a Raspberry Pi 2W.
+This repo contains the code powering the _Time Teller_, a literature clock driven by a Raspberry Pi Zero 2W.
 
 ---
 
