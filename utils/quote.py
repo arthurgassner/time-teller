@@ -5,6 +5,8 @@ import logging
 from pathlib import Path
 import random
 
+from utils.settings import get_settings
+
 
 @dataclass
 class Quote:
@@ -12,6 +14,22 @@ class Quote:
     author: str
     title: str 
     hhmm: str # Time in the hh:mm format
+
+    @staticmethod
+    def _get_missing_quote(hhmm: str) -> "Quote":
+        """Generate a missing quote fitting the provided hhmm
+
+        Args:
+            hhmm (str): Time for which the missing quote is wanted | HH:mm format (e.g. "13:42")
+
+        Returns:
+            Quote: Quote adequate when no fitting quote could be found.
+        """
+
+        quote = get_settings().MISSING_QUOTE.replace("<HHMM>", hhmm)
+        author = get_settings().MISSING_AUTHOR
+        title = get_settings().MISSING_TITLE
+        return Quote(quote=quote, author=author, title=title, hhmm=hhmm)
 
     @staticmethod
     def randomly_select_quote(dt: datetime) -> "Quote":
@@ -22,7 +40,7 @@ class Quote:
         
         quote_filepath = Path(f"data/quotes/{hhmm}.csv")
         if not quote_filepath.is_file():
-            return Quote(quote=f"Welp.\n It seems no quote exists for {hhmm}.", author="Someone", title="Some book", hhmm=hhmm)
+            return Quote._get_missing_quote(hhmm=hhmm)
 
         # Load the file containing the relevant quotes
         with quote_filepath.open(newline='') as f:

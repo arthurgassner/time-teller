@@ -21,6 +21,11 @@ class Settings(BaseSettings):
     # Max timedelta after which a full-refresh is triggered
     FULL_REFRESH_MAX_TIMEDELTA: timedelta = timedelta(hours=24)
     
+    # Missing-quote-related settings
+    MISSING_QUOTE: str = "Welp.\n It seems no quote exists for <b><HHMM></b>."
+    MISSING_AUTHOR: str = "Someone"
+    MISSING_TITLE: str = "Some book"
+
     @property
     def LAST_FULL_REFRESH_DT(self) -> datetime:
         """Return the datetime of the last full refresh, 
@@ -33,7 +38,7 @@ class Settings(BaseSettings):
             last_full_refresh_dt = datetime.fromisoformat(last_full_refresh_dt_str.strip('\n')).replace(tzinfo=self.TZ)
 
         return last_full_refresh_dt
-
+    
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
