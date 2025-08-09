@@ -1,8 +1,10 @@
 # :clock10: Time Teller
 
+This repo contains the code powering the _Time Teller_, a literature clock driven by a Raspberry Pi 2W.
+
 <br>
 
-<p align="center">🚀 <a href="https://literature-clock.arthurgassner.ch"><strong>Detailed write-up</strong></a> 🚀</p>
+<p align="center">🚀 <a href="https://time-teller.arthurgassner.ch"><strong>Detailed write-up</strong></a> 🚀</p>
 
 <br>
 
@@ -12,7 +14,7 @@
 
 > [!IMPORTANT]
 > This script is meant to be run on a RPi Zero 2W hooked to a Waveshare’s 7.5inch e-Paper screen.
-> To prepare the RPi correctly, please follow the [detailed write-up](https://literature-clock.arthurgassner.ch).
+> To prepare the RPi correctly, please follow the [detailed write-up](https://time-teller.arthurgassner.ch).
 
 1. Install [`uv`](https://docs.astral.sh/uv/)
 2. Create a virtual environment with `uv venv --system-site-packages`
@@ -39,8 +41,8 @@ uv pip install -r requirements.txt
 ├── tests/ # pytest
 ├── main.py # Main script
 ├── hello_world.py # Script displaying "Hello World" on the screen
-├── full_refresh.py # Script performing a full refresh on the screen (see https://literature-clock.arthurgassner.ch/#step-3-display-something-on-the-screen)
-├── partial_refresh.py # Script performing a partial refresh on the screen (see https://literature-clock.arthurgassner.ch/#step-3-display-something-on-the-screen)
+├── full_refresh.py # Script performing a full refresh on the screen (see https://time-teller.arthurgassner.ch/#step-3-display-something-on-the-screen)
+├── partial_refresh.py # Script performing a partial refresh on the screen (see https://time-teller.arthurgassner.ch/#step-3-display-something-on-the-screen)
 ├── clear_screen.py # Script clearing the screen
 └── README.md 
 ```

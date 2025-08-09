@@ -1,0 +1,14 @@
+[Unit]
+Description=Time Teller
+After=multi-user.target
+
+[Service]
+RuntimeMaxSec=30s
+Type=oneshot
+ExecStart=/home/pi/time-teller/.venv/bin/python /home/pi/time-teller/main.py
+WorkingDirectory=/home/pi/time-teller
+RemainAfterExit=true
+User=pi
+
+[Install]
+WantedBy=multi-user.target
