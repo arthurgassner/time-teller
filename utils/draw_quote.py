@@ -95,7 +95,7 @@ def draw_quote(
     
     # Setup the fonts
     font = ImageFont.truetype(str(font_filepath), font_size)
-    font.set_variation_by_axes([200])
+    font.set_variation_by_axes([100])
     font_bold = ImageFont.truetype(str(font_filepath), font_size)
     font_bold.set_variation_by_axes([1000])
 
